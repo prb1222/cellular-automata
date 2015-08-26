@@ -1,0 +1,47 @@
+h1, a{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  font-family: helvetica;
+}
+
+.cell {
+  border: 1px solid gray;
+  width: 10px;
+  height: 10px;
+  background-color: #ccc;
+  display: inline-block;
+}
+
+.row {
+  padding: 0;
+  height: 12px;
+}
+
+body {
+  text-align: center;
+}
+
+.game {
+  padding-bottom: 15px;
+}
+
+.cell.snake, .cell.head {
+  background-color: green;
+}
+
+.apple {
+  background-color: red;
+}
+
+.menu-bar {
+  position: relative;
+  width: 100%;
+  background-color: #999;
+}
+
+.canvas-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}

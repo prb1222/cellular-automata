@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Conway's Game of Life</title>
+    <link rel="stylesheet" type="text/css" href="./game.css">
+  </head>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src='./menubar.js'></script>
+    <script src='./game.js'></script>
+    <script src='./game-view.js'></script>
+    <h1 class="header">Conway's Game of Life</h1>
+    <div class="canvas-container">
+      <canvas></canvas>
+      <div class="menu-bar">
+        <button type="button" class="start-button">Start</button>
+        <button type="button" class="stop-button">Stop</button>
+        <button type="button" class="step-button">Step</button>
+      </div>
+    </div>
+    <a href='./GoL.html' class='refresh'>Play again!</a>
+    <script>
+      $(document).ready(function () {
+        var canvasEl = document.getElementsByTagName("canvas")[0];
+        $('.canvas-container').css('width', GameOfLife.Board.DIM_X);
+        canvasEl.width = GameOfLife.Board.DIM_X;
+        canvasEl.height = GameOfLife.Board.DIM_Y;
+        var ctx = canvasEl.getContext("2d");
+        var game = new GameOfLife.Board({ctx: ctx});
+        new GameOfLife.View(game, ctx);
+      });
+    </script>
+  </body>
+</html>
