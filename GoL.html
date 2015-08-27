@@ -8,7 +8,7 @@
   <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/jquery-ui.min.js"></script>
-    
+
     <script src='./menubar.js'></script>
     <script src='./game.js'></script>
     <script src='./game-view.js'></script>
@@ -19,6 +19,8 @@
         <button type="button" class="start-button">Start</button>
         <button type="button" class="stop-button">Stop</button>
         <button type="button" class="step-button">Step</button>
+        <button type="button" class="conway-button">Conway</button>
+        <button type="button" class="cyclic-button">Cyclic</button>
         <div class="info">
           <div class="counter">0</div>
           <div class="mode">paused</div>
@@ -34,7 +36,7 @@
         canvasEl.width = GameOfLife.View.CANVAS_DIM_X;
         canvasEl.height = GameOfLife.View.CANVAS_DIM_Y;
         var ctx = canvasEl.getContext("2d");
-        var game = new GameOfLife.Board({numX: 110, numY: 44});
+        var game = new GameOfLife.Board({numX: 50, numY: 50});
         new GameOfLife.View(game);
       });
     </script>

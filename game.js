@@ -8,16 +8,24 @@
   var Board = GameOfLife.Board = function (options) {
       this.numX = options.numX;
       this.numY = options.numY;
+      this.gameType = "Conway";
       this.generateGrid();
       this.generation = 0;
+      this.threshold = 1;
   };
+
+  Board.COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
 
   Board.prototype.generateGrid = function () {
     this.grid = [];
     for (var i = 0; i < this.numX; i++) {
       this.grid.push([]);
       for (var j = 0; j < this.numY; j++) {
-        this.grid[i].push(null);
+        if (this.gameType === "Conway") {
+          this.grid[i].push("D");
+        } else if (this.gameType === "Cyclic") {
+          this.grid[i].push(GameOfLife.Board.COLORS[Math.floor(Math.random() * 6)]);
+        }
       }
     }
   };
@@ -27,7 +35,10 @@
     var offsetY = (this.numY - Math.floor(numBoxes[1] - numBoxes[1] % 2)) / 2;
     this.grid.forEach(function(row, i){
       row.forEach(function(cell, j){
-        if (cell === "A") {
+        if (cell === "A" || Board.COLORS.indexOf(cell) !== -1) {
+          if (this.gameType === "Cyclic") {
+            ctx.fillStyle = cell;
+          }
           ctx.fillRect((i - offsetX) * size + offset[0], (j - offsetY) * size + offset[1], size, size);
         }
       }.bind(this));
@@ -41,20 +52,49 @@
     self.grid.forEach(function(row, i){
       row.forEach(function(cell, j){ //IMPLEMENT KILL ZONE ON EDGES
         var numNeighbors = self.tallyNeighbors([i , j]);
-
-        if (cell === "A") {
-          if (numNeighbors < 2 || numNeighbors > 3) {
-            changes.push([i , j, "D"])
-          }
-        } else {
-          if (numNeighbors === 3) {
-            changes.push([i , j, "A"])
-          }
-        }
+        self.cellChange(cell, i , j, numNeighbors, changes);
       });
     });
 
     this.makeChanges(changes);
+  };
+
+  Board.prototype.cellChange = function (cell, i, j, numNeighbors, changes) {
+    if (this.gameType === "Conway") {
+      this.conwayChange(cell, i , j, numNeighbors, changes);
+    } else if (this.gameType === "Cyclic") {
+      this.cyclicChange(cell, i, j, numNeighbors, changes);
+    }
+  };
+
+  Board.prototype.conwayChange = function (cell, i, j, numNeighbors, changes) {
+    if (cell === "A") {
+      if (numNeighbors < 2 || numNeighbors > 3) {
+        changes.push([i , j, "D"])
+      }
+    } else {
+      if (numNeighbors === 3) {
+        changes.push([i , j, "A"])
+      }
+    }
+  };
+
+  Board.prototype.cyclicChange = function (cell, x, y, numNeighbors, changes) {
+    var currentIndex = Board.COLORS.indexOf(cell);
+    var tally = 0;
+    for (var i = x - 1; i < x + 2; i++) {
+      for (var j = y - 1; j < y + 2; j++) {
+        if ( (i === x && j === y) || !this.onBoard([i, j])) {continue;}
+        var neighborColor = this.grid[i][j];
+        var neighborIndex = Board.COLORS.indexOf(neighborColor);
+        if ((currentIndex + 1) % 6 === neighborIndex) {
+          tally++
+        }
+      }
+    }
+    if (tally > this.threshold) {
+      changes.push([x, y, Board.COLORS[(currentIndex + 1) % 6]]);
+    }
   };
 
   Board.prototype.makeChanges = function (changes) {
@@ -99,5 +139,10 @@
     var x = pos[0];
     var y = pos[1];
     this.grid[x][y] = val;
+  };
+
+  Board.prototype.reset = function () {
+    this.generation = 0;
+    this.generateGrid();
   };
 })();

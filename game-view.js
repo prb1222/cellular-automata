@@ -20,8 +20,8 @@
     this.bindEvents();
   };
 
-  View.CANVAS_DIM_X = 1000;
-  View.CANVAS_DIM_Y = 400;
+  View.CANVAS_DIM_X = 500;
+  View.CANVAS_DIM_Y = 500;
   View.ACTIVE_COLOR = '#ff0';
   View.BG_COLOR = "#ccc";
   View.LINE_COLOR = "#999";
@@ -29,7 +29,7 @@
   View.prototype.bindEvents = function () {
     this.$slider.on('input', this.changeSize.bind(this));
     $(this.canvas).click(this.handleClickEvent.bind(this));
-    $(this.canvas).mousedown(this.toggleSelecting.bind(this));
+    $('body').mousedown(this.toggleSelecting.bind(this));
     $('body').mouseup(this.toggleSelecting.bind(this));
     $(this.canvas).mousemove(this.selectSquares.bind(this));
   };
@@ -40,7 +40,7 @@
       self.draw();
       self.$counter.text(self.board.generation);
       self.$mode.text(self.board.mode);
-    }, 100);
+    }, 10);
 
   };
 
