@@ -45,3 +45,17 @@ body {
   left: 50%;
   transform: translateX(-50%);
 }
+
+.info {
+  display: inline-block;
+  font-family: helvetica;
+  color: white;
+}
+
+.info > div {
+  display: inline-block;
+}
+
+button, input {
+  display: inline-block;
+}

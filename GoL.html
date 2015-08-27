@@ -7,6 +7,8 @@
   </head>
   <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/jquery-ui.min.js"></script>
+    
     <script src='./menubar.js'></script>
     <script src='./game.js'></script>
     <script src='./game-view.js'></script>
@@ -17,6 +19,11 @@
         <button type="button" class="start-button">Start</button>
         <button type="button" class="stop-button">Stop</button>
         <button type="button" class="step-button">Step</button>
+        <div class="info">
+          <div class="counter">0</div>
+          <div class="mode">paused</div>
+          <input type="range" class="slider" min="0" max="100" />
+        </div>
       </div>
     </div>
     <a href='./GoL.html' class='refresh'>Play again!</a>
@@ -24,11 +31,11 @@
       $(document).ready(function () {
         var canvasEl = document.getElementsByTagName("canvas")[0];
         $('.canvas-container').css('width', GameOfLife.Board.DIM_X);
-        canvasEl.width = GameOfLife.Board.DIM_X;
-        canvasEl.height = GameOfLife.Board.DIM_Y;
+        canvasEl.width = GameOfLife.View.CANVAS_DIM_X;
+        canvasEl.height = GameOfLife.View.CANVAS_DIM_Y;
         var ctx = canvasEl.getContext("2d");
-        var game = new GameOfLife.Board({ctx: ctx});
-        new GameOfLife.View(game, ctx);
+        var game = new GameOfLife.Board({numX: 110, numY: 44});
+        new GameOfLife.View(game);
       });
     </script>
   </body>

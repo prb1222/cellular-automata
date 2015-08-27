@@ -6,118 +6,98 @@
   var GameOfLife = window.GameOfLife;
 
   var Board = GameOfLife.Board = function (options) {
-      this.ctx = options.ctx;
-      this.menu = new GameOfLife.MenuBar({board: this});
+      this.numX = options.numX;
+      this.numY = options.numY;
       this.generateGrid();
-      this.bindClickHandlers();
-      this.canvas = document.getElementsByTagName('canvas')[0];
+      this.generation = 0;
   };
-
-  Board.DIM_X = 1000;
-  Board.DIM_Y = 400;
-  Board.BG_COLOR = '#ccc';
-  Board.SQUARE_SIZE = 10;
-  Board.LINE_COLOR = '#999';
-  Board.ACTIVE_COLOR = "#ff0"
-  Board.numX = Board.DIM_X / Board.SQUARE_SIZE;
-  Board.numY = Board.DIM_Y / Board.SQUARE_SIZE;;
 
   Board.prototype.generateGrid = function () {
     this.grid = [];
-    for (var i = 0; i < Board.numX; i++) {
+    for (var i = 0; i < this.numX; i++) {
       this.grid.push([]);
-      for (var j = 0; j < Board.numY; j++) {
+      for (var j = 0; j < this.numY; j++) {
         this.grid[i].push(null);
       }
     }
   };
 
-  Board.prototype.draw = function () {
-    this.ctx.clearRect(0, 0, Board.DIM_X, Board.DIM_Y);
-    this.ctx.fillStyle = Board.BG_COLOR;
-    this.ctx.fillRect(0, 0, Board.DIM_X, Board.DIM_Y);
-
-    this.ctx.fillStyle = Board.ACTIVE_COLOR;
-    var size = Board.SQUARE_SIZE;
-
+  Board.prototype.draw = function (ctx, offset, numBoxes, size) {
+    var offsetX = (this.numX - Math.floor(numBoxes[0] - numBoxes[0] % 2)) / 2;
+    var offsetY = (this.numY - Math.floor(numBoxes[1] - numBoxes[1] % 2)) / 2;
     this.grid.forEach(function(row, i){
       row.forEach(function(cell, j){
         if (cell === "A") {
-          this.ctx.fillRect(i * size, j * size, size, size);
+          ctx.fillRect((i - offsetX) * size + offset[0], (j - offsetY) * size + offset[1], size, size);
         }
       }.bind(this));
     }.bind(this));
-
-    for (var i = 0; i < Board.numX; i++) {
-      this.ctx.beginPath();
-      this.ctx.moveTo(Board.SQUARE_SIZE * (i + 1), 0);
-      this.ctx.lineTo(Board.SQUARE_SIZE * (i + 1), Board.DIM_Y);
-      this.ctx.stroke();
-    }
-
-    for (var i = 0; i < Board.numY; i++) {
-      this.ctx.beginPath();
-      this.ctx.moveTo(0, Board.SQUARE_SIZE * (i + 1));
-      this.ctx.lineTo(Board.DIM_X, Board.SQUARE_SIZE * (i + 1));
-      this.ctx.stroke();
-    }
   };
 
   Board.prototype.step = function () {
+    this.generation++;
     var self = this;
-    debugger;
+    var changes = [];
     self.grid.forEach(function(row, i){
-      row.forEach(function(cell, j){
+      row.forEach(function(cell, j){ //IMPLEMENT KILL ZONE ON EDGES
         var numNeighbors = self.tallyNeighbors([i , j]);
 
         if (cell === "A") {
           if (numNeighbors < 2 || numNeighbors > 3) {
-            self.grid[i][j] = "D";
+            changes.push([i , j, "D"])
           }
         } else {
           if (numNeighbors === 3) {
-            self.grid[i][j] = "A";
+            changes.push([i , j, "A"])
           }
         }
       });
     });
+
+    this.makeChanges(changes);
+  };
+
+  Board.prototype.makeChanges = function (changes) {
+    if (!changes.length) {return;}
+    changes.forEach(function (change) {
+      var i = change[0];
+      var j = change[1];
+      var val = change[2];
+      this.grid[i][j] = val;
+    }.bind(this))
   };
 
   Board.prototype.tallyNeighbors = function (pos) {
     var x = pos[0];
     var y = pos[1];
     var tally = 0;
-    for (var i = x; i < x + 2; i++) {
-      for (var j = y; j < y + 2; j++) {
-        this.grid[i][j]
+    for (var i = x - 1; i < x + 2; i++) {
+      for (var j = y - 1; j < y + 2; j++) {
+        if ( (i === x && j === y) || !this.onBoard([i, j])) {continue;}
+        if (this.grid[i][j] === "A") {
+          tally++;
+        }
       }
     }
+
+    return tally;
   };
 
-  Board.prototype.offBoard = function (pos) {
+  Board.prototype.onBoard = function (pos) {
     var x = pos[0];
     var y = pos[1];
+    return (x >= 0 && x < this.numX) && (y >= 0 && y < this.numY);
   };
 
-  Board.prototype.bindClickHandlers = function () {
-    $('canvas').click(this.handleClickEvent.bind(this));
+  Board.prototype.onEdge = function (pos) {
+    var x = pos[0];
+    var y = pos[1];
+    return (x === 0 || x === Board.numX - 1) || (y === 0 || y === Board.numY - 1)
   };
 
-  Board.prototype.handleClickEvent = function (event) {
-    var mousePos = this.getMousePos(event);
-    var size = Board.SQUARE_SIZE;
-    var xBox = Math.floor(mousePos.x / size);
-    var yBox = Math.floor(mousePos.y / size);
-    this.grid[xBox][yBox] = "A";
-    this.ctx.fillStyle = Board.ACTIVE_COLOR;
-    this.ctx.fillRect(xBox * size, yBox * size, size, size)
-  };
-
-  Board.prototype.getMousePos = function (event) {
-    var rect = this.canvas.getBoundingClientRect();
-    return {
-          x: event.clientX - rect.left,
-          y: event.clientY - rect.top
-        };
+  Board.prototype.set = function (pos, val) {
+    var x = pos[0];
+    var y = pos[1];
+    this.grid[x][y] = val;
   };
 })();
