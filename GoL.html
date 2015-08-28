@@ -13,17 +13,92 @@
     <script src='./game.js'></script>
     <script src='./game-view.js'></script>
     <h1 class="header">Conway's Game of Life</h1>
-    <div class="canvas-container">
+    <div class="menu-bar-container">
       <div class="menu-bar">
-        <button type="button" class="start-button">Start</button>
-        <button type="button" class="stop-button">Stop</button>
-        <button type="button" class="step-button">Step</button>
-        <button type="button" class="conway-button">Conway</button>
-        <button type="button" class="cyclic-button">Cyclic</button>
-        <div class="info">
-          <div class="counter">0</div>
-          <div class="mode">paused</div>
-          <input type="range" class="slider" min="0" max="100" value="0"/>
+        <div class="top-row">
+          <div class="button-row">
+            <button type="button" class="start-button">Start</button>
+            <button type="button" class="stop-button">Stop</button>
+            <button type="button" class="step-button">Step</button>
+            <button type="button" class="reset-button">Reset</button>
+            <button type="button" class="conway-button">Conway</button>
+            <button type="button" class="cyclic-button">Cyclic</button>
+          </div>
+          <div class="input-range-row">
+            <div class="generation-counter">
+              Current Generation: <div class="counter">0</div>
+            </div>
+            <div class="game-mode">
+              Current Game Mode: <div class="mode">paused</div>
+            </div>
+            <label for="zoom-bar">Zoom Bar: </label><input type="range" class="slider" id="zoom-bar" min="0" max="100" value="0"/>
+            <label for="speed-bar">Speed Bar: </label><input type="range" class="slider" id="speed-bar" min="0" max="100" value="0"/>
+          </div>
+        </div>
+        <div class="bottom-row clear-fix">
+          <div class="conway-buttons clear-fix">
+            <div class="preset-dropdown-menu clear-fix">
+              <div class="button-label">
+                Select preset board:
+              </div>
+              <select class="preset-dropdown" >
+                <option value="" selected>Choose a preset</option>
+                <option value="glider-factory">Glider Factory</option>
+                <option value="garden-of-eden">Garden of Eden</option>
+                <option value="some-other-thing">Some other thing</option>
+              </select>
+            </div>
+            <div class="cursor-painter clear-fix">
+              <div class="button-label">
+                Select mouse brush:
+              </div>
+              <select class="preset-dropdown" >
+                <option value="" selected>Single Click</option>
+                <option value="glider">Glider</option>
+                <option value="square">Square</option>
+                <option value="some-other-thing">Some other thing</option>
+              </select>
+            </div>
+          </div>
+          <div class="cyclic-buttons clear-fix">
+            <div class="cyclic-status-row clear-fix">
+              <ul class="status-list">
+                <li class="range-row">Range: <div class="status-input-field" id="range-status">1</div></li>
+                <li class="num-colors-row">Number of Colors: <div class="status-input-field" id="num-colors-status">3</div></li>
+                <li class="threshold-row">Threshold: <div class="status-input-field" id="threshold-status">3</div></li>
+                <li class="neighborhood-row">Neighborhood Type: <div class="status-input-field" id="neighborhood-status">NM</div></li>
+              </ul>
+            </div>
+            <div class="cyclic-input-row clear-fix">
+              <div class="cyclic-top-row clear-fix">
+                <div class="range-selector">
+                  <label for="cyclic-range-bar">Range: </label><input type="range" class="slider" id="cyclic-range-bar" min="1" max="5" value="1">
+                </div>
+                <div class="num-colors-selector">
+                  <label for="num-colors-bar">Number of Colors: </label><input type="range" class="slider" id="num-colors-bar" min="1" max="16" value="3">
+                </div>
+              </div>
+              <div class="cyclic-bottom-row clear-fix">
+                <div class="threshold-selector">
+                  <label for="cyclic-threshold-bar">Threshold: </label><input type="range" class="slider" id="cyclic-threshold-bar" min="1" max="36" value="3">
+                </div>
+                <div class="neighborhood-type clear-fix">
+                  <div class="checkbox-input-container">
+                    <input type="checkbox" name="neighborhood-boxes" class="checkbox" value="extended-moore">
+                    <div class="checkbox-label">
+                      Extended Moore
+                    </div>
+                  </div>
+                  <div class="checkbox-input-container">
+                    <input type="checkbox" name="neighborhood-boxes" class="checkbox" value="extended-moore">
+                    <div class="checkbox-label">
+                      Extended von Neumann
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <canvas></canvas>
@@ -33,11 +108,11 @@
     <script>
       $(document).ready(function () {
         var canvasEl = document.getElementsByTagName("canvas")[0];
-        $('.canvas-container').css('width', GameOfLife.Board.DIM_X);
+        $('.menu-bar-container').css('width', GameOfLife.Board.DIM_X);
         canvasEl.width = GameOfLife.View.CANVAS_DIM_X;
         canvasEl.height = GameOfLife.View.CANVAS_DIM_Y;
         var ctx = canvasEl.getContext("2d");
-        var game = new GameOfLife.Board({numX: 200, numY: 200});
+        var game = new GameOfLife.Board({numX: 100, numY: 40});
         new GameOfLife.View(game);
       });
     </script>

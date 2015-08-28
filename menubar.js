@@ -9,9 +9,14 @@
     this.$startButton = $body.find('.start-button');
     this.$stopButton = $body.find('.stop-button');
     this.$stepButton = $body.find('.step-button');
+    this.$resetButton = $body.find('.reset-button');
     this.$conwayButton = $body.find('.conway-button');
     this.$cyclicButton = $body.find('.cyclic-button');
-    this.$slider = $body.find('.slider');
+    this.$zoomBar = $body.find('#zoom-bar');
+    this.$speedBar = $body.find('#speed-bar');
+    this.$rangeBar = $body.find('#cyclic-range-bar');
+    this.$thresholdBar = $body.find('#cyclic-threshold-bar');
+    this.$numColorsBar = $body.find('#num-colors-bar');
     this.timerId = null;
     this.mode = "paused";
 
@@ -24,6 +29,10 @@
     this.$stepButton.click(this.stepGame.bind(this));
     this.$conwayButton.click(this.switchGame.bind(this));
     this.$cyclicButton.click(this.switchGame.bind(this));
+    this.$resetButton.click(this.resetGame.bind(this));
+    this.$rangeBar.on('input', this.changeRange.bind(this));
+    this.$thresholdBar.on('input', this.changeThreshold.bind(this));
+    this.$numColorsBar.on('input', this.changeNumColors.bind(this));
   };
 
   MenuBar.prototype.startGame = function () {
@@ -61,6 +70,29 @@
     }
   };
 
+  MenuBar.prototype.resetGame = function () {
+    this.board.mode = this.mode = "paused";
+    window.clearInterval(this.timerId);
+    this.board.reset();
+  };
+
+  MenuBar.prototype.changeRange = function (event) {
+    var newRange = this.$rangeBar.val();
+    $('#range-status').text(newRange);
+    this.board.range = parseInt(newRange);
+  };
+
+  MenuBar.prototype.changeThreshold = function (event) {
+    var newThreshold = this.$thresholdBar.val();
+    $('#threshold-status').text(newThreshold);
+    this.board.threshold = parseInt(newThreshold);
+  };
+
+  MenuBar.prototype.changeNumColors = function (event) {
+    var newNumColors = this.$numColorsBar.val();
+    $('#num-colors-status').text(newNumColors);
+    this.board.numColors = parseInt(newNumColors);
+  };
 
 
 

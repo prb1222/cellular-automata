@@ -10,7 +10,7 @@
     this.menu = new GameOfLife.MenuBar({board: this.board});
     this.start();
     this.$counter = $('.counter');
-    this.$slider = $('.slider');
+    this.$zoomBar = $('#zoom-bar');
     this.canvas = document.getElementsByTagName('canvas')[0];
     this.ctx = this.canvas.getContext("2d");
     this.$mode = $('.mode');
@@ -20,14 +20,14 @@
     this.bindEvents();
   };
 
-  View.CANVAS_DIM_X = 2000;
-  View.CANVAS_DIM_Y = 2000;
+  View.CANVAS_DIM_X = 1000;
+  View.CANVAS_DIM_Y = 400;
   View.ACTIVE_COLOR = '#ff0';
   View.BG_COLOR = "#ccc";
   View.LINE_COLOR = "#999";
 
   View.prototype.bindEvents = function () {
-    this.$slider.on('input', this.changeSize.bind(this));
+    this.$zoomBar.on('input', this.changeSize.bind(this));
     $(this.canvas).click(this.handleClickEvent.bind(this));
     $('body').mousedown(this.toggleSelecting.bind(this));
     $('body').mouseup(this.toggleSelecting.bind(this));
@@ -97,7 +97,7 @@
   };
 
   View.prototype.changeSize = function () {
-    var amount = this.$slider.val();
+    var amount = this.$zoomBar.val();
     this.squareSize = 9 / 10 * amount + 10;
     this.numX = View.CANVAS_DIM_X / this.squareSize;
     this.numY = View.CANVAS_DIM_Y / this.squareSize;

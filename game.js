@@ -11,11 +11,12 @@
       this.gameType = "Conway";
       this.generateGrid();
       this.generation = 0;
-      this.threshold = 1;
+      this.threshold = 3;
+      this.range = 1;
+      this.numColors = 3;
   };
 
-  // Board.COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
-  Board.COLORS = ['red', 'orange', 'yellow', 'green'];
+  Board.COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet', 'pink'];
 
   Board.prototype.generateGrid = function () {
     this.grid = [];
@@ -25,7 +26,7 @@
         if (this.gameType === "Conway") {
           this.grid[i].push("D");
         } else if (this.gameType === "Cyclic") {
-          this.grid[i].push(GameOfLife.Board.COLORS[Math.floor(Math.random() * 4)]);
+          this.grid[i].push(GameOfLife.Board.COLORS[Math.floor(Math.random() * this.numColors)]);
         }
       }
     }
@@ -83,10 +84,8 @@
   Board.prototype.cyclicChange = function (cell, x, y, numNeighbors, changes) {
     var currentIndex = Board.COLORS.indexOf(cell);
     var tally = 0;
-    // var surrounded = true;
-    // var surroundedColor = null;
-    for (var i = x - 1; i < x + 2; i++) {
-      for (var j = y - 1; j < y + 2; j++) {
+    for (var i = x - this.range; i < x + this.range + 1; i++) {
+      for (var j = y - this.range; j < y + this.range + 1; j++) {
         if ( i === x && j === y ) {continue;}
         if (!this.onBoard([i, j])) {
           var neighborPos = this.wrapPos([i, j]);
@@ -94,30 +93,21 @@
           var neighborPos = [i, j];
         }
         var neighborColor = this.getVal(neighborPos);
-        // if (surroundedColor && surroundedColor !== neighborColor) {
-        //   surrounded = false;
-        // } else {
-        //   surroundedColor = neighborColor
-        // }
         var neighborIndex = Board.COLORS.indexOf(neighborColor);
-        if ((currentIndex + 1) % 4 === neighborIndex) {
+        if ((currentIndex + 1) % this.numColors === neighborIndex) {
           tally++
         }
       }
     }
 
-    if (tally > this.threshold) {
-      changes.push([x, y, Board.COLORS[(currentIndex + 1) % 4]]);
+    if (tally >= this.threshold) {
+      changes.push([x, y, Board.COLORS[(currentIndex + 1) % this.numColors]]);
     }
-    // if (surrounded) {
-    //   changes.push([x, y, surroundedColor]);
-    // } else if (tally > this.threshold) {
-    //   changes.push([x, y, Board.COLORS[(currentIndex + 1) % 6]]);
-    // }
   };
 
   Board.prototype.makeChanges = function (changes) {
     if (!changes.length) {return;}
+    console.log('got here!')
     changes.forEach(function (change) {
       var i = change[0];
       var j = change[1];

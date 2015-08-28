@@ -1,3 +1,7 @@
+* {
+  font-family: helvetica;
+}
+
 h1, a{
   margin-left: auto;
   margin-right: auto;
@@ -26,9 +30,6 @@ body {
   padding-bottom: 15px;
 }
 
-.cell.snake, .cell.head {
-  background-color: green;
-}
 
 .apple {
   background-color: red;
@@ -40,10 +41,159 @@ body {
   background-color: #999;
 }
 
-.canvas-container {
+.menu-bar-container {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.input-range-row {
+  display: block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #ccc;
+}
+
+.input-range-row > * {
+  display: inline-block;
+  padding: 5px;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 100%;
+}
+
+.counter, .mode {
+  display: inline-block;
+  color: #ddd;
+  background-color: #777;
+  border-radius: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.bottom-row {
+  height: 100px;
+}
+
+.conway-buttons, .cyclic-buttons {
+  display: inline-block;
+  width: 49%;
+  height: 100px;
+  float: left;
+}
+
+.conway-buttons {
+  border-right: 3px solid #ccc;
+}
+
+.conway-buttons > * {
+  display: inline-block;
+  width: 49%;
+  float: left;
+  margin-top: 41px;
+}
+
+.cyclic-status-row > *, .cyclic-top-row > *, .cyclic-bottom-row > * {
+  display: inline-block;
+  width: 49%;
+  float: left;
+  text-align: center;
+  margin: 0px auto 0px auto;
+}
+
+.cyclic-status-row, .cyclic-input-row {
+  float: left;
+  height: 100px;
+}
+
+.cyclic-status-row {
+  width: 30%;
+}
+
+.cyclic-input-row {
+  width: 70%;
+}
+
+.cyclic-top-row, .cyclic-bottom-row {
+  height: 50px;
+  width: 100%;
+}
+
+.cyclic-top-row > *, .cyclic-bottom-row > * {
+  width: 49%;
+}
+
+.cyclic-top-row > div > label, .cyclic-bottom-row > div > label {
+  font-size: 9px;
+  width: 30%;
+}
+
+.cyclic-top-row input.slider, .cyclic-bottom-row input.slider{
+  width: 45%;
+}
+
+li > div {
+  display: inline-block;
+  color: white;
+  font-size: 12px;
+}
+
+li {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-size: 10px;
+  font-color: #ccc;
+  list-style-type: none;
+  text-align: left;
+}
+
+ul.status-list {
+  float: left;
+  padding: 5px;
+  width: 100%;
+}
+
+div.range-selector > *, div.num-colors-selector > *, div.threshold-selector > *, div.neighborhood-type > *{
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+}
+
+.neighborhood-type {
+  font-size: 12px;
+}
+
+.checkbox-label, input.checkbox {
+  display: inline-block;
+  font-size: 9px;
+}
+
+.neighborhood-type > .checkbox-input-container {
+  display: inline-block;
+  width: 49%;
+  float: left;
+  margin-top: 0px;
+}
+
+div.button-row > button {
+  width: 70px;
+  height: 30px;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 25px;
+}
+
+.button-row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+div.button-row > button:hover {
+  box-shadow: 0px 0px 5px black;
 }
 
 .info {
@@ -58,4 +208,15 @@ body {
 
 button, input {
   display: inline-block;
+}
+
+.clear-fix::after {
+  clear: both;
+  display: block;
+  content: "";
+}
+
+.preset-dropdown, .button-label {
+  float: left;
+  width: 49%;
 }
