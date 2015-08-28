@@ -14,7 +14,8 @@
       this.threshold = 1;
   };
 
-  Board.COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+  // Board.COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+  Board.COLORS = ['red', 'orange', 'yellow', 'green'];
 
   Board.prototype.generateGrid = function () {
     this.grid = [];
@@ -24,7 +25,7 @@
         if (this.gameType === "Conway") {
           this.grid[i].push("D");
         } else if (this.gameType === "Cyclic") {
-          this.grid[i].push(GameOfLife.Board.COLORS[Math.floor(Math.random() * 6)]);
+          this.grid[i].push(GameOfLife.Board.COLORS[Math.floor(Math.random() * 4)]);
         }
       }
     }
@@ -70,11 +71,11 @@
   Board.prototype.conwayChange = function (cell, i, j, numNeighbors, changes) {
     if (cell === "A") {
       if (numNeighbors < 2 || numNeighbors > 3) {
-        changes.push([i , j, "D"])
+        changes.push([i , j, "D"]);
       }
     } else {
       if (numNeighbors === 3) {
-        changes.push([i , j, "A"])
+        changes.push([i , j, "A"]);
       }
     }
   };
@@ -82,19 +83,37 @@
   Board.prototype.cyclicChange = function (cell, x, y, numNeighbors, changes) {
     var currentIndex = Board.COLORS.indexOf(cell);
     var tally = 0;
+    // var surrounded = true;
+    // var surroundedColor = null;
     for (var i = x - 1; i < x + 2; i++) {
       for (var j = y - 1; j < y + 2; j++) {
-        if ( (i === x && j === y) || !this.onBoard([i, j])) {continue;}
-        var neighborColor = this.grid[i][j];
+        if ( i === x && j === y ) {continue;}
+        if (!this.onBoard([i, j])) {
+          var neighborPos = this.wrapPos([i, j]);
+        } else {
+          var neighborPos = [i, j];
+        }
+        var neighborColor = this.getVal(neighborPos);
+        // if (surroundedColor && surroundedColor !== neighborColor) {
+        //   surrounded = false;
+        // } else {
+        //   surroundedColor = neighborColor
+        // }
         var neighborIndex = Board.COLORS.indexOf(neighborColor);
-        if ((currentIndex + 1) % 6 === neighborIndex) {
+        if ((currentIndex + 1) % 4 === neighborIndex) {
           tally++
         }
       }
     }
+
     if (tally > this.threshold) {
-      changes.push([x, y, Board.COLORS[(currentIndex + 1) % 6]]);
+      changes.push([x, y, Board.COLORS[(currentIndex + 1) % 4]]);
     }
+    // if (surrounded) {
+    //   changes.push([x, y, surroundedColor]);
+    // } else if (tally > this.threshold) {
+    //   changes.push([x, y, Board.COLORS[(currentIndex + 1) % 6]]);
+    // }
   };
 
   Board.prototype.makeChanges = function (changes) {
@@ -113,14 +132,39 @@
     var tally = 0;
     for (var i = x - 1; i < x + 2; i++) {
       for (var j = y - 1; j < y + 2; j++) {
-        if ( (i === x && j === y) || !this.onBoard([i, j])) {continue;}
-        if (this.grid[i][j] === "A") {
+        if (i === x && j === y) {continue;}
+
+        if (!this.onBoard([i, j])) {
+          var neighborPos = this.wrapPos([i, j]);
+        } else {
+          var neighborPos = [i, j];
+        }
+
+        if (this.getVal(neighborPos) === "A") {
           tally++;
         }
       }
     }
 
     return tally;
+  };
+
+  Board.prototype.wrapPos = function (pos) {
+    var i = pos[0];
+    var j = pos[1];
+    result = [i, j]
+    if (i < 0) {
+      result[0] = this.numX + i;
+    } else if (i >= this.numX ) {
+      result[0] = i % this.numX;
+    }
+
+    if (j < 0) {
+      result[1] = this.numY + j;
+    } else if (j >= this.numY ) {
+      result[1] = j % this.numY;
+    }
+    return result;
   };
 
   Board.prototype.onBoard = function (pos) {
@@ -132,13 +176,23 @@
   Board.prototype.onEdge = function (pos) {
     var x = pos[0];
     var y = pos[1];
-    return (x === 0 || x === Board.numX - 1) || (y === 0 || y === Board.numY - 1)
+    return (x === 0 || x === this.numX - 1) || (y === 0 || y === this.numY - 1)
   };
 
-  Board.prototype.set = function (pos, val) {
+  Board.prototype.set = function (pos) {
     var x = pos[0];
     var y = pos[1];
-    this.grid[x][y] = val;
+    if (this.gameType === "Conway") {
+      this.grid[x][y] = "A";
+    } else if (this.gameType === "Cyclic"){
+      // PUT CODE FOR CCA STUFF HERE
+    }
+  };
+
+  Board.prototype.getVal = function (pos) {
+    var x = pos[0];
+    var y = pos[1];
+    return this.grid[x][y];
   };
 
   Board.prototype.reset = function () {

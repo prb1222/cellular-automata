@@ -38,7 +38,6 @@
 
   MenuBar.prototype.stopGame = function () {
     if (this.mode === "paused") {return;}
-    debugger;
     this.board.mode = this.mode = "paused";
     window.clearInterval(this.timerId);
   };

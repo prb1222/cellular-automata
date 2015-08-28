@@ -20,8 +20,8 @@
     this.bindEvents();
   };
 
-  View.CANVAS_DIM_X = 500;
-  View.CANVAS_DIM_Y = 500;
+  View.CANVAS_DIM_X = 2000;
+  View.CANVAS_DIM_Y = 2000;
   View.ACTIVE_COLOR = '#ff0';
   View.BG_COLOR = "#ccc";
   View.LINE_COLOR = "#999";
@@ -85,7 +85,7 @@
     var offsetY = (this.board.numY - Math.floor(this.numY - this.numY % 2)) / 2;
     var xBox = offsetX + Math.floor((mousePos.x - this.numX % 2 / 2 * size) / size);
     var yBox = offsetY + Math.floor((mousePos.y - this.numY % 2 / 2 * size) / size);
-    this.board.set([xBox, yBox], "A");
+    this.board.set([xBox, yBox]);
   };
 
   View.prototype.getMousePos = function (event) {

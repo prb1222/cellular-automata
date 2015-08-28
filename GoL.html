@@ -14,7 +14,6 @@
     <script src='./game-view.js'></script>
     <h1 class="header">Conway's Game of Life</h1>
     <div class="canvas-container">
-      <canvas></canvas>
       <div class="menu-bar">
         <button type="button" class="start-button">Start</button>
         <button type="button" class="stop-button">Stop</button>
@@ -24,9 +23,11 @@
         <div class="info">
           <div class="counter">0</div>
           <div class="mode">paused</div>
-          <input type="range" class="slider" min="0" max="100" />
+          <input type="range" class="slider" min="0" max="100" value="0"/>
         </div>
       </div>
+      <canvas></canvas>
+      <div id="instructions tab">How to play:</div>
     </div>
     <a href='./GoL.html' class='refresh'>Play again!</a>
     <script>
@@ -36,7 +37,7 @@
         canvasEl.width = GameOfLife.View.CANVAS_DIM_X;
         canvasEl.height = GameOfLife.View.CANVAS_DIM_Y;
         var ctx = canvasEl.getContext("2d");
-        var game = new GameOfLife.Board({numX: 50, numY: 50});
+        var game = new GameOfLife.Board({numX: 200, numY: 200});
         new GameOfLife.View(game);
       });
     </script>
