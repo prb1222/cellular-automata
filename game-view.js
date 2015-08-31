@@ -30,7 +30,7 @@
     this.$zoomBar.on('input', this.changeSize.bind(this));
     $(this.canvas).click(this.handleClickEvent.bind(this));
     $('body').mousedown(this.toggleSelecting.bind(this));
-    $('body').mouseup(this.toggleSelecting.bind(this));
+    $('body').mouseup(this.stopSelecting.bind(this));
     $(this.canvas).mousemove(this.selectSquares.bind(this));
   };
 
@@ -111,6 +111,10 @@
   View.prototype.selectSquares = function (event) {
     if (!this.selecting) {return;}
     this.handleClickEvent(event);
+  };
+
+  View.prototype.stopSelecting = function () {
+    this.selecting = false;
   };
 
 })();

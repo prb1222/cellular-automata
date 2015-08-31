@@ -80,13 +80,13 @@ body {
 }
 
 .bottom-row {
-  height: 100px;
+  height: 141px;
 }
 
 .conway-buttons, .cyclic-buttons {
   display: inline-block;
   width: 49%;
-  height: 100px;
+  height: 141px;
   float: left;
 }
 
@@ -228,8 +228,23 @@ button, input {
 
 .current-mode {
   display: inline-block;
+  width: 100px;
 }
 
 .current-mode-status {
   display: inline-block;
+}
+
+.conway-buttons > h3, .cyclic-buttons > h3 {
+  display: block;
+  margin: 0px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  clear: both;
+  width: 100%;
+  text-align: center;
+}
+
+.conway-buttons > * {
+  margin: 0px;
 }
