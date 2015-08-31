@@ -14,9 +14,9 @@
       this.threshold = 3;
       this.range = 1;
       this.numColors = 3;
+      this.neighborType = "Moore"
   };
 
-  Board.COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet', 'pink'];
 
   Board.prototype.generateGrid = function () {
     this.grid = [];
@@ -26,7 +26,7 @@
         if (this.gameType === "Conway") {
           this.grid[i].push("D");
         } else if (this.gameType === "Cyclic") {
-          this.grid[i].push(GameOfLife.Board.COLORS[Math.floor(Math.random() * this.numColors)]);
+          this.grid[i].push(this.generateHSL(Math.floor(Math.random() * this.numColors)));
         }
       }
     }
@@ -37,7 +37,9 @@
     var offsetY = (this.numY - Math.floor(numBoxes[1] - numBoxes[1] % 2)) / 2;
     this.grid.forEach(function(row, i){
       row.forEach(function(cell, j){
-        if (cell === "A" || Board.COLORS.indexOf(cell) !== -1) {
+        var regex = /hsl\(\d+,/;
+
+        if (cell === "A" || cell.match(regex) ) {
           if (this.gameType === "Cyclic") {
             ctx.fillStyle = cell;
           }
@@ -52,7 +54,7 @@
     var self = this;
     var changes = [];
     self.grid.forEach(function(row, i){
-      row.forEach(function(cell, j){ //IMPLEMENT KILL ZONE ON EDGES
+      row.forEach(function(cell, j){
         var numNeighbors = self.tallyNeighbors([i , j]);
         self.cellChange(cell, i , j, numNeighbors, changes);
       });
@@ -82,7 +84,19 @@
   };
 
   Board.prototype.cyclicChange = function (cell, x, y, numNeighbors, changes) {
-    var currentIndex = Board.COLORS.indexOf(cell);
+    if (this.neighborType === "Moore") {
+      var tally = this.mooreSum(cell, x, y);
+    } else if (this.neighborType ==="Neumann") {
+      var tally = this.neumannSum(cell, x, y);
+    }
+
+
+    if (tally >= this.threshold) {
+      changes.push([x, y, this.changeHSL(cell)]);
+    }
+  };
+
+  Board.prototype.mooreSum = function (cell, x, y) {
     var tally = 0;
     for (var i = x - this.range; i < x + this.range + 1; i++) {
       for (var j = y - this.range; j < y + this.range + 1; j++) {
@@ -93,21 +107,43 @@
           var neighborPos = [i, j];
         }
         var neighborColor = this.getVal(neighborPos);
-        var neighborIndex = Board.COLORS.indexOf(neighborColor);
-        if ((currentIndex + 1) % this.numColors === neighborIndex) {
+        if (this.compareHSL(cell, neighborColor)) {
           tally++
         }
       }
     }
 
-    if (tally >= this.threshold) {
-      changes.push([x, y, Board.COLORS[(currentIndex + 1) % this.numColors]]);
+    return tally;
+  };
+
+  Board.prototype.neumannSum = function (cell, x, y) {
+    var tally = 0;
+    var counter = 0;
+    for (var i = x - this.range; i < x + this.range + 1; i++) {
+      for (var j = y - counter; j < y + counter + 1; j++) {
+        if ( i === x && j === y ) {continue;}
+        if (!this.onBoard([i, j])) {
+          var neighborPos = this.wrapPos([i, j]);
+        } else {
+          var neighborPos = [i, j];
+        }
+        var neighborColor = this.getVal(neighborPos);
+        if (this.compareHSL(cell, neighborColor)) {
+          tally++
+        }
+      }
+      if (i < x) {
+        counter++
+      } else {
+        counter--
+      }
     }
+
+    return tally;
   };
 
   Board.prototype.makeChanges = function (changes) {
     if (!changes.length) {return;}
-    console.log('got here!')
     changes.forEach(function (change) {
       var i = change[0];
       var j = change[1];
@@ -188,5 +224,26 @@
   Board.prototype.reset = function () {
     this.generation = 0;
     this.generateGrid();
+  };
+
+  Board.prototype.generateHSL = function (num) {
+    var str = "hsl(";
+    var angle = Math.floor(360 / this.numColors) * num;
+    return str + angle + ", 100%, 50%)";
+  };
+
+  Board.prototype.compareHSL = function (hsl1, hsl2) {
+    var regex = /hsl\(\d+,/
+    var hVal1 = parseInt(hsl1.match(regex)[0].slice(4,7));
+    var hVal2 = parseInt(hsl2.match(regex)[0].slice(4,7));
+    // debugger;
+    return (hVal1 + Math.floor(360 / this.numColors)) % 360 === hVal2;
+  };
+
+  Board.prototype.changeHSL = function (hsl) {
+    var regex = /hsl\(\d+,/
+    var hVal = parseInt(hsl.match(regex)[0].slice(4,7));
+    var nextHVal =  (hVal + Math.floor(360 / this.numColors) )% 360;
+    return "hsl(" + nextHVal + ", 100%, 50%)";
   };
 })();

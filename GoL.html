@@ -23,6 +23,7 @@
             <button type="button" class="reset-button">Reset</button>
             <button type="button" class="conway-button">Conway</button>
             <button type="button" class="cyclic-button">Cyclic</button>
+            <button type="button" class="instructions-button">Instructions</button>
           </div>
           <div class="input-range-row">
             <div class="generation-counter">
@@ -32,16 +33,16 @@
               Current Game Mode: <div class="mode">paused</div>
             </div>
             <label for="zoom-bar">Zoom Bar: </label><input type="range" class="slider" id="zoom-bar" min="0" max="100" value="0"/>
-            <label for="speed-bar">Speed Bar: </label><input type="range" class="slider" id="speed-bar" min="0" max="100" value="0"/>
+            <label for="speed-bar">Speed Bar: [coming soon] </label><input disabled type="range" class="slider" id="speed-bar" min="0" max="100" value="0"/>
           </div>
         </div>
         <div class="bottom-row clear-fix">
           <div class="conway-buttons clear-fix">
             <div class="preset-dropdown-menu clear-fix">
               <div class="button-label">
-                Select preset board:
+                Select preset board: [coming soon]
               </div>
-              <select class="preset-dropdown" >
+              <select disabled class="preset-dropdown" >
                 <option value="" selected>Choose a preset</option>
                 <option value="glider-factory">Glider Factory</option>
                 <option value="garden-of-eden">Garden of Eden</option>
@@ -50,9 +51,9 @@
             </div>
             <div class="cursor-painter clear-fix">
               <div class="button-label">
-                Select mouse brush:
+                Select mouse brush: [coming soon]
               </div>
-              <select class="preset-dropdown" >
+              <select disabled class="preset-dropdown" >
                 <option value="" selected>Single Click</option>
                 <option value="glider">Glider</option>
                 <option value="square">Square</option>
@@ -84,13 +85,13 @@
                 </div>
                 <div class="neighborhood-type clear-fix">
                   <div class="checkbox-input-container">
-                    <input type="checkbox" name="neighborhood-boxes" class="checkbox" value="extended-moore">
+                    <input type="radio" name="neighborhood-boxes" class="checkbox" id="moore-box" value="extended-moore" checked>
                     <div class="checkbox-label">
                       Extended Moore
                     </div>
                   </div>
                   <div class="checkbox-input-container">
-                    <input type="checkbox" name="neighborhood-boxes" class="checkbox" value="extended-moore">
+                    <input type="radio" name="neighborhood-boxes" class="checkbox" id="neumann-box" value="extended-neumann">
                     <div class="checkbox-label">
                       Extended von Neumann
                     </div>
@@ -102,7 +103,30 @@
         </div>
       </div>
       <canvas></canvas>
-      <div id="instructions tab">How to play:</div>
+      <div id="instructions-tab">
+        <h3>
+          How to play:
+        </h3>
+        <p>
+          There are two game modes: Conway's Game of Life (Conway button) and Cyclic Cellular Automaton (Cyclic button). Press start to begin the game mode, step to advance one turn ahead, and stop to pause the game. Reset generates a new board.
+        </p>
+
+        <h4>Conway's Game of Life</h4>
+        <p>
+          This "zero-player" game takes place on a grid of cells which can be in either an on (Yellow) or an off (Grey) state. The cells look at their immediate neighbors to see if they will turn on, off, or stay in their state on the next turn.
+        </p>
+        <p>
+          If a cell has less than two neighbors, it dies of loneliness. If it has more than three neighbors, it dies of over crowding. Otherwise, living cells stay the same. Additionally, if a dead cell is surrounded by three or more living cells, the dead cell becomings living.
+        </p>
+        <p>
+          Use the mouse cursor to turn squares on.
+        </p>
+
+        <h4>Cyclic Cellular Automata (CCA)</h4>
+        <p>
+          This is an abstraction on Conway's Game of Life. Instead of two states, there are n states, each specified by a color. Additionally, there are additional criterion for advancing a cell to the next state in the progression. The range for CCA determines how many spaces away to check for neighbors. The threshold is the number of neighbor cells which must be of the next state in the progression in order to advance the current cell. The neighborhood type determines whether diagonal spaces count as neighbors (Moore) or not (von Neumann).
+        </p>
+      </div>
     </div>
     <a href='./GoL.html' class='refresh'>Play again!</a>
     <script>
