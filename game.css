@@ -248,3 +248,7 @@ button, input {
 .conway-buttons > * {
   margin: 0px;
 }
+
+p > a {
+  display: inline-block;
+}

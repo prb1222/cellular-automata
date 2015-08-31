@@ -121,12 +121,12 @@
           How to play:
         </h3>
         <p>
-          There are two game modes: Conway's Game of Life (Conway button) and Cyclic Cellular Automaton (Cyclic button). Press start to begin the game mode, step to advance one turn ahead, and stop to pause the game. Reset generates a new board.
+          Welcome to my cellular automata simulator. A cellular automaton is a representation of points on a grid which can update their state depending on certain rules. Because the board updates automatically, cellular automata simulations are sometimes called "zero-player games". You can read more about them <a href="https://en.wikipedia.org/wiki/Cellular_automaton">here</a>.There are two game modes: Conway's Game of Life (Conway button) and Cyclic Cellular Automaton (Cyclic button). Press start to begin the game mode, step to advance one turn ahead, and stop to pause the game. Reset generates a new board.
         </p>
 
         <h4>Conway's Game of Life</h4>
         <p>
-          This "zero-player" game takes place on a grid of cells which can be in either an on (Yellow) or an off (Grey) state. The cells look at their immediate neighbors to see if they will turn on, off, or stay in their state on the next turn.
+          This game takes place on a grid of cells which can be in either an on (Yellow) or an off (Grey) state. The cells look at their immediate neighbors to see if they will turn on, off, or stay in their state on the next turn.
         </p>
         <p>
           If a cell has less than two neighbors, it dies of loneliness. If it has more than three neighbors, it dies of over crowding. Otherwise, living cells stay the same. Additionally, if a dead cell is surrounded by three or more living cells, the dead cell becomings living.
@@ -137,11 +137,10 @@
 
         <h4>Cyclic Cellular Automata (CCA)</h4>
         <p>
-          This is an abstraction on Conway's Game of Life. Instead of two states, there are n states, each specified by a color. Additionally, there are additional criterion for advancing a cell to the next state in the progression. The range for CCA determines how many spaces away to check for neighbors. The threshold is the number of neighbor cells which must be of the next state in the progression in order to advance the current cell. The neighborhood type determines whether diagonal spaces count as neighbors (Moore) or not (von Neumann).
+          This is an abstraction on Conway's Game of Life. Instead of two states, there are n states, each specified by a color. There are additional criterion for advancing a cell to the next state in the progression. The range for CCA determines how many spaces away to check for neighbors. The threshold is the number of neighbor cells which must be of the next state in the progression in order to advance the current cell. The neighborhood type determines whether diagonal spaces count as neighbors (Moore) or not (von Neumann).
         </p>
       </div>
     </div>
-    <a href='./GoL.html' class='refresh'>Play again!</a>
     <script>
       $(document).ready(function () {
         var canvasEl = document.getElementsByTagName("canvas")[0];

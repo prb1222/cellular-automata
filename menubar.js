@@ -113,6 +113,7 @@
     $('#num-colors-status').text(newNumColors);
     this.board.mode = this.mode = "paused";
     this.board.numColors = parseInt(newNumColors);
+    window.clearInterval(this.timerId);
     this.board.reset();
   };
 
