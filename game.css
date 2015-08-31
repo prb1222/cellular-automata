@@ -52,6 +52,7 @@ body {
   padding-top: 10px;
   padding-bottom: 10px;
   border-bottom: 3px solid #ccc;
+  font-size: 12px;
 }
 
 .input-range-row > * {
@@ -61,6 +62,10 @@ body {
   margin-top: 10px;
   margin-bottom: 10px;
   height: 100%;
+}
+
+.zoom-collection > *, .speed-collection > * {
+  display: inline-block;
 }
 
 .counter, .mode {
@@ -219,4 +224,12 @@ button, input {
 .preset-dropdown, .button-label {
   float: left;
   width: 49%;
+}
+
+.current-mode {
+  display: inline-block;
+}
+
+.current-mode-status {
+  display: inline-block;
 }

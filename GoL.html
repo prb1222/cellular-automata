@@ -23,7 +23,8 @@
             <button type="button" class="reset-button">Reset</button>
             <button type="button" class="conway-button">Conway</button>
             <button type="button" class="cyclic-button">Cyclic</button>
-            <button type="button" class="instructions-button">Instructions</button>
+            <button type="button" class="instructions-button">How to Play</button>
+            <div class="current-mode-status">Current Mode: <div class="current-mode">Conway</div></div>
           </div>
           <div class="input-range-row">
             <div class="generation-counter">
@@ -32,8 +33,18 @@
             <div class="game-mode">
               Current Game Mode: <div class="mode">paused</div>
             </div>
-            <label for="zoom-bar">Zoom Bar: </label><input type="range" class="slider" id="zoom-bar" min="0" max="100" value="0"/>
-            <label for="speed-bar">Speed Bar: [coming soon] </label><input disabled type="range" class="slider" id="speed-bar" min="0" max="100" value="0"/>
+            <div class="zoom-collection">
+              <label for="zoom-bar">Zoom Bar: </label><input type="range" class="slider" id="zoom-bar" min="0" max="100" value="0"/>
+              <div class="zoom-status">
+                Zoom: <div class="zoom">1X</div>
+              </div>
+            </div>
+            <div class="speed-collection">
+              <label for="speed-bar">Speed Bar: </label><input type="range" class="slider" id="speed-bar" min="10" max="1000" value="100"/>
+              <div class="speed-status">
+                Update Interval (ms): <div class="speed">100</div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="bottom-row clear-fix">

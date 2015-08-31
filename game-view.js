@@ -99,6 +99,7 @@
   View.prototype.changeSize = function () {
     var amount = this.$zoomBar.val();
     this.squareSize = 9 / 10 * amount + 10;
+    $('.zoom').text(Math.floor(this.squareSize / 10) + "X");
     this.numX = View.CANVAS_DIM_X / this.squareSize;
     this.numY = View.CANVAS_DIM_Y / this.squareSize;
   };

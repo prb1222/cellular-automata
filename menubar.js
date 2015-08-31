@@ -22,6 +22,7 @@
     this.$neumannBox = $body.find('#neumann-box');
     this.timerId = null;
     this.mode = "paused";
+    this.speed = 100;
 
     this.bindClickHandlers();
   };
@@ -34,6 +35,7 @@
     this.$cyclicButton.click(this.switchGame.bind(this));
     this.$resetButton.click(this.resetGame.bind(this));
     this.$instructionsButton.click(this.showInstructions.bind(this));
+    this.$speedBar.on('input', this.changeSpeed.bind(this));
     this.$rangeBar.on('input', this.changeRange.bind(this));
     this.$thresholdBar.on('input', this.changeThreshold.bind(this));
     this.$numColorsBar.on('input', this.changeNumColors.bind(this));
@@ -44,7 +46,7 @@
   MenuBar.prototype.startGame = function () {
     if (this.mode === "running") {return;}
     this.board.mode = this.mode = "running";
-    this.timerId = setInterval(this.runGame.bind(this), 100); // CAN REFACTOR THIS INTO A VARIABLE FRAME RATE
+    this.timerId = setInterval(this.runGame.bind(this), this.speed);
   };
 
   MenuBar.prototype.runGame = function () {
@@ -67,10 +69,12 @@
     this.board.mode = this.mode = "paused";
     window.clearInterval(this.timerId);
     if ($target.text() === "Conway") {
+      $('.current-mode').text("Conway");
       this.board.gameType = "Conway";
       this.board.reset();
 
     } else if ($target.text() === "Cyclic") {
+      $('.current-mode').text("Cyclic");
       this.board.gameType = "Cyclic";
       this.board.reset();
     }
@@ -86,6 +90,16 @@
     var newRange = this.$rangeBar.val();
     $('#range-status').text(newRange);
     this.board.range = parseInt(newRange);
+  };
+
+  MenuBar.prototype.changeSpeed = function () {
+    var newSpeed = this.$speedBar.val();
+    this.speed = newSpeed;
+    $('.speed').text(newSpeed);
+    if (this.mode === "running") {
+      window.clearInterval(this.timerId);
+      this.timerId = setInterval(this.runGame.bind(this), this.speed);
+    }
   };
 
   MenuBar.prototype.changeThreshold = function (event) {
