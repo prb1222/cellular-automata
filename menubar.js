@@ -13,6 +13,7 @@
     this.$conwayButton = $body.find('.conway-button');
     this.$cyclicButton = $body.find('.cyclic-button');
     this.$instructionsButton = $body.find('.instructions-button');
+    this.$cyclicOptions = $body.find('#cyclic-options');
     this.$zoomBar = $body.find('#zoom-bar');
     this.$speedBar = $body.find('#speed-bar');
     this.$rangeBar = $body.find('#cyclic-range-bar');
@@ -37,6 +38,7 @@
     this.$instructionsButton.click(this.showInstructions.bind(this));
     this.$speedBar.on('input', this.changeSpeed.bind(this));
     this.$rangeBar.on('input', this.changeRange.bind(this));
+    this.$cyclicOptions.on('input',this.changeCyclicOptions.bind(this));
     this.$thresholdBar.on('input', this.changeThreshold.bind(this));
     this.$numColorsBar.on('input', this.changeNumColors.bind(this));
     this.$mooreBox.on('click', this.changeNeighborType.bind(this));
@@ -47,6 +49,19 @@
     if (this.mode === "running") {return;}
     this.board.mode = this.mode = "running";
     this.timerId = setInterval(this.runGame.bind(this), this.speed);
+    if (this.scrolling) {return;}
+    this.scrolling = true;
+    $('html,body').animate(
+      {
+        scrollTop: $("canvas").offset().top
+      },
+      {
+        duration: 'slow',
+        complete: function () {
+          this.scrolling = false;
+        }.bind(this)
+      }
+    );
   };
 
   MenuBar.prototype.runGame = function () {
@@ -143,6 +158,38 @@
         }.bind(this)
       }
     );
+  };
+
+  MenuBar.prototype.changeCyclicOptions = function (event) {
+    var settingArray = $(event.currentTarget).val().split("/");
+    for (index in settingArray) {
+      var setting = settingArray[index];
+      switch (index) {
+        case "0":
+          var num = parseInt(setting.slice(1,3));
+          this.$rangeBar.val(num);
+          this.$rangeBar.trigger('input');
+          break;
+        case "1":
+          debugger;
+          var num = parseInt(setting.slice(1,3));
+          this.$thresholdBar.val(num);
+          this.$thresholdBar.trigger('input');
+          break;
+        case "2":
+          var num = parseInt(setting.slice(1,3));
+          this.$numColorsBar.val(num);
+          this.$numColorsBar.trigger('input');
+          break;
+        case "3":
+          if (setting === "NM") {
+            this.$mooreBox.trigger('click');
+          } else {
+            this.$neumannBox.trigger('click');
+          }
+          break;
+      }
+    }
   };
 
 

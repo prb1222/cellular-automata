@@ -26,7 +26,7 @@
         if (this.gameType === "Conway") {
           this.grid[i].push("D");
         } else if (this.gameType === "Cyclic") {
-          this.grid[i].push(this.generateHSL(Math.floor(Math.random() * this.numColors)));
+          this.grid[i].push(this.generateHSL(Math.floor(Math.random() * this.numColors) + 1));
         }
       }
     }
@@ -236,14 +236,22 @@
     var regex = /hsl\(\d+,/
     var hVal1 = parseInt(hsl1.match(regex)[0].slice(4,7));
     var hVal2 = parseInt(hsl2.match(regex)[0].slice(4,7));
-    // debugger;
-    return (hVal1 + Math.floor(360 / this.numColors)) % 360 === hVal2;
+    var increment = Math.floor(360 / this.numColors);;
+    var nextHVal = hVal1 + increment;
+    if (nextHVal > 360) {
+      nextHVal = increment;
+    }
+    return nextHVal === hVal2;
   };
 
   Board.prototype.changeHSL = function (hsl) {
     var regex = /hsl\(\d+,/
     var hVal = parseInt(hsl.match(regex)[0].slice(4,7));
-    var nextHVal =  (hVal + Math.floor(360 / this.numColors) )% 360;
+    var increment = Math.floor(360 / this.numColors);
+    var nextHVal =  hVal + increment;
+    if (nextHVal > 360) {
+      nextHVal = increment;
+    }
     return "hsl(" + nextHVal + ", 100%, 50%)";
   };
 })();

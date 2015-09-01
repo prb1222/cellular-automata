@@ -21,7 +21,7 @@
   };
 
   View.CANVAS_DIM_X = 1000;
-  View.CANVAS_DIM_Y = 400;
+  View.CANVAS_DIM_Y = 600;
   View.ACTIVE_COLOR = '#ff0';
   View.BG_COLOR = "#ccc";
   View.LINE_COLOR = "#999";

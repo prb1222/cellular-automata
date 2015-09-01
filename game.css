@@ -229,6 +229,9 @@ button, input {
 .current-mode {
   display: inline-block;
   width: 100px;
+  background-color: #fff;
+  border-radius: 25px;
+  padding: 5px;
 }
 
 .current-mode-status {
@@ -251,4 +254,12 @@ button, input {
 
 p > a {
   display: inline-block;
+}
+
+.conway-button, .cyclic-button {
+  background-color: #ff9;
+}
+
+.instructions-button {
+  background-color: #9ff;
 }
