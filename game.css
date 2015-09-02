@@ -273,7 +273,7 @@ p > a {
 }
 
 .stop-button {
-  background-color: #f44;
+  background-color: #ff4;
 }
 
 .step-button {
@@ -281,5 +281,5 @@ p > a {
 }
 
 .reset-button {
-  background-color: #ff4;
+  background-color: #f44;
 }

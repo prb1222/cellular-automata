@@ -32,7 +32,6 @@
     }
 
     if (this.prevConwaySetting && this.gameType === "Conway") {
-      // debugger;
       this.generateConwayBoard(this.prevConwaySetting);
     }
   };
@@ -265,17 +264,54 @@
     positions = [];
     switch (setting) {
       case "gosper-gun":
-        var positions = this.generatePositions(GameOfLife.gosperGun);
+        var pattern = GameOfLife.gosperGun;
+        break;
+      case "b52-gun":
+        var pattern = GameOfLife.b52;
+        break;
+      case "acorn":
+        var pattern = GameOfLife.acorn;
+        break;
+      case "garden-of-eden":
+        var pattern = GameOfLife.gardenOfEden;
+        break;
+      case "garden-of-eden2":
+        var pattern = GameOfLife.gardenOfEden2;
+        break;
+      case "weekender":
+        var pattern = GameOfLife.weekender;
+        break;
+      case "dragon":
+        var pattern = GameOfLife.dragon;
+        break;
+      case "seal":
+        var pattern = GameOfLife.seal;
+        break;
+      case "beehive-hassler":
+        var pattern = GameOfLife.beehiveHassler;
+        break;
+      case "toad-hassler":
+        var pattern = GameOfLife.toadHassler;
+        break;
+      case "switch-engine":
+        var pattern = GameOfLife.switchEngine;
+        break;
+      case "chicken-wire":
+        var pattern = GameOfLife.chickenWire;
+        break;
+      case "noahs-ark":
+        var pattern = GameOfLife.noahsArk;
         break;
     }
 
+    var positions = this.generatePositions(pattern);
     this.setConway(positions);
   };
 
   Board.prototype.generatePositions = function (pattern) {
     var self = this;
     var startX = 30;
-    var startY = 10;
+    var startY = 15;
     var lines = pattern.split("#");
     var positions = [];
     lines.forEach(function(line, i){
@@ -293,7 +329,11 @@
     for (var i = 0; i < array.length; i++) {
       var x = array[i][0];
       var y = array[i][1];
-      this.grid[x][y] = "A";
+      if (this.onBoard([x, y])) {
+        this.grid[x][y] = "A";
+      } else {
+        this.set(this.wrapPos([x, y]));
+      }
     }
   };
 })();
