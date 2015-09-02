@@ -86,11 +86,13 @@
     this.board.mode = this.mode = "paused";
     window.clearInterval(this.timerId);
     if ($target.text() === "Conway") {
+      $('.cyclic-buttons').addClass("inactive");
       $('.current-mode').text("Conway");
       this.board.gameType = "Conway";
       this.board.reset();
 
     } else if ($target.text() === "Cyclic") {
+      $('.cyclic-buttons').removeClass("inactive");
       $('.current-mode').text("Cyclic");
       this.board.gameType = "Cyclic";
       this.board.reset();
@@ -201,7 +203,6 @@
     this.$conwayButton.trigger('click');
     this.board.prevConwaySetting = setting;
     this.board.reset();
-    // this.$startButton.trigger('click');
   };
 
 

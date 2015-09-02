@@ -283,3 +283,16 @@ p > a {
 .reset-button {
   background-color: #f44;
 }
+
+.inactive {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.conway-buttons > div {
+  margin-top: 30px;
+}
+
+body {
+  background-color: #ddd;
+}
