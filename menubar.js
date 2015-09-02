@@ -175,7 +175,6 @@
           this.$rangeBar.trigger('input');
           break;
         case "1":
-          debugger;
           var num = parseInt(setting.slice(1,3));
           this.$thresholdBar.val(num);
           this.$thresholdBar.trigger('input');
