@@ -192,6 +192,10 @@ div.button-row > button {
   border-radius: 25px;
 }
 
+.button-row > * {
+  outline: none;
+}
+
 .button-row {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -257,9 +261,25 @@ p > a {
 }
 
 .conway-button, .cyclic-button {
-  background-color: #ff9;
+  background-color: #ffa500;
 }
 
 .instructions-button {
   background-color: #9ff;
+}
+
+.start-button {
+  background-color: #4f4;
+}
+
+.stop-button {
+  background-color: #f44;
+}
+
+.step-button {
+  background-color: #44f;
+}
+
+.reset-button {
+  background-color: #ff4;
 }

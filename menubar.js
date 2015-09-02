@@ -14,6 +14,7 @@
     this.$cyclicButton = $body.find('.cyclic-button');
     this.$instructionsButton = $body.find('.instructions-button');
     this.$cyclicOptions = $body.find('#cyclic-options');
+    this.$conwayOptions = $body.find('#conway-options');
     this.$zoomBar = $body.find('#zoom-bar');
     this.$speedBar = $body.find('#speed-bar');
     this.$rangeBar = $body.find('#cyclic-range-bar');
@@ -38,6 +39,7 @@
     this.$instructionsButton.click(this.showInstructions.bind(this));
     this.$speedBar.on('input', this.changeSpeed.bind(this));
     this.$rangeBar.on('input', this.changeRange.bind(this));
+    this.$conwayOptions.on('input',this.changeConwayBoard.bind(this));
     this.$cyclicOptions.on('input',this.changeCyclicOptions.bind(this));
     this.$thresholdBar.on('input', this.changeThreshold.bind(this));
     this.$numColorsBar.on('input', this.changeNumColors.bind(this));
@@ -53,7 +55,7 @@
     this.scrolling = true;
     $('html,body').animate(
       {
-        scrollTop: $("canvas").offset().top
+        scrollTop: ($("canvas").offset().top - 30)
       },
       {
         duration: 'slow',
@@ -190,8 +192,17 @@
           break;
       }
     }
+    this.$cyclicButton.trigger('click');
+    this.$startButton.trigger('click');
   };
 
+  MenuBar.prototype.changeConwayBoard = function (event) {
+    var setting = $(event.currentTarget).val();
+    this.$conwayButton.trigger('click');
+    this.board.prevConwaySetting = setting;
+    this.board.reset();
+    // this.$startButton.trigger('click');
+  };
 
 
 })();

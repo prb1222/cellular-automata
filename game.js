@@ -30,6 +30,11 @@
         }
       }
     }
+
+    if (this.prevConwaySetting && this.gameType === "Conway") {
+      // debugger;
+      this.generateConwayBoard(this.prevConwaySetting);
+    }
   };
 
   Board.prototype.draw = function (ctx, offset, numBoxes, size) {
@@ -253,5 +258,42 @@
       nextHVal = increment;
     }
     return "hsl(" + nextHVal + ", 100%, 50%)";
+  };
+
+  Board.prototype.generateConwayBoard = function (setting) {
+    this.generation = 0;
+    positions = [];
+    switch (setting) {
+      case "gosper-gun":
+        var positions = this.generatePositions(GameOfLife.gosperGun);
+        break;
+    }
+
+    this.setConway(positions);
+  };
+
+  Board.prototype.generatePositions = function (pattern) {
+    var self = this;
+    var startX = 30;
+    var startY = 10;
+    var lines = pattern.split("#");
+    var positions = [];
+    lines.forEach(function(line, i){
+      for (var j = 0; j < line.length; j++) {
+        if (line[j] === "O") {
+          positions.push([startX + j, startY + i]);
+        }
+      }
+    });
+
+    return positions;
+  };
+
+  Board.prototype.setConway = function (array) {
+    for (var i = 0; i < array.length; i++) {
+      var x = array[i][0];
+      var y = array[i][1];
+      this.grid[x][y] = "A";
+    }
   };
 })();
