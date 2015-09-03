@@ -19,6 +19,11 @@
       {
         text: 'Next',
         action: GameOfLife.tour.cancel
+      },
+
+      {
+        text: "Exit",
+        action: GameOfLife.tour.cancel
       }
     ]
   });
