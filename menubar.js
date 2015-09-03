@@ -1,7 +1,9 @@
 (function(){
-  if (typeof GameOfLife === "undefined") {
+  if (typeof window.GameOfLife === "undefined") {
     var GameOfLife = window.GameOfLife = {};
   }
+
+  var GameOfLife = window.GameOfLife;
 
   var MenuBar = GameOfLife.MenuBar = function (options) {
     this.board = options.board;

@@ -18,6 +18,7 @@
     this.numX = View.CANVAS_DIM_X / this.squareSize;
     this.numY = View.CANVAS_DIM_Y / this.squareSize;
     this.bindEvents();
+    GameOfLife.tour.start();
   };
 
   View.CANVAS_DIM_X = 1000;
