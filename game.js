@@ -9,6 +9,7 @@
       this.numX = options.numX;
       this.numY = options.numY;
       this.gameType = "Conway";
+      this.prevConwaySetting = "gosper-gun"
       this.generateGrid();
       this.generation = 0;
       this.threshold = 3;

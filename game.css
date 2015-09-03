@@ -296,3 +296,7 @@ p > a {
 body {
   background-color: #ddd;
 }
+
+.shepherd-step > .shepherd-content > .shepherd-text > p {
+  font-size: 12px;
+}
