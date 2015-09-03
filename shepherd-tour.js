@@ -120,29 +120,6 @@
     ]
   });
 
-  GameOfLife.tour.addStep('cyclic-buttons-step', {
-    text: 'These inputs are active only when the game is in Cyclic mode. They allow tweaking of the 4 governing variables for Cyclic simulations.',
-    attachTo: '.cyclic-buttons top',
-    buttons: [
-      {
-        text: "Back",
-        action: GameOfLife.tour.back
-      },
-
-      {
-        text: "Next",
-        action: GameOfLife.tour.next
-      },
-
-      {
-        text: 'Done',
-        action: GameOfLife.tour.cancel
-      }
-
-    ]
-  });
-
-
   GameOfLife.tour.addStep('canvas-step', {
     text: 'While in Conway mode, use the mouse cursor to click/drag and activate cells! I hope you enjoy it!',
     attachTo: 'canvas top',

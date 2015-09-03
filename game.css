@@ -264,7 +264,7 @@ p > a {
   background-color: #ffa500;
 }
 
-.instructions-button {
+.instructions-button, .tour-button {
   background-color: #9ff;
 }
 

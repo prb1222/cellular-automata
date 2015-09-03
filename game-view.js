@@ -11,6 +11,7 @@
     this.start();
     this.$counter = $('.counter');
     this.$zoomBar = $('#zoom-bar');
+    this.$tourButton = $('.tour-button');
     this.canvas = document.getElementsByTagName('canvas')[0];
     this.ctx = this.canvas.getContext("2d");
     this.$mode = $('.mode');
@@ -18,7 +19,7 @@
     this.numX = View.CANVAS_DIM_X / this.squareSize;
     this.numY = View.CANVAS_DIM_Y / this.squareSize;
     this.bindEvents();
-    GameOfLife.tour.start();
+    this.startTour();
   };
 
   View.CANVAS_DIM_X = 1000;
@@ -33,6 +34,8 @@
     $('body').mousedown(this.toggleSelecting.bind(this));
     $('body').mouseup(this.stopSelecting.bind(this));
     $(this.canvas).mousemove(this.selectSquares.bind(this));
+    GameOfLife.tour.on('cancel', this.endTour.bind(this));
+    this.$tourButton.click(this.startTour.bind(this));
   };
 
   View.prototype.start = function () {
@@ -116,6 +119,19 @@
 
   View.prototype.stopSelecting = function () {
     this.selecting = false;
+  };
+
+  View.prototype.startTour = function (first_argument) {
+    if (this.touring) {return;}
+    this.touring = true;
+    $('body > :not(div.shepherd-step)').addClass('inactive');
+    GameOfLife.tour.start();
+  };
+
+  View.prototype.endTour = function () {
+    $('body > :not(div.shepherd-step)').removeClass('inactive');
+    $('.start-button').trigger('click');
+    this.touring = false;
   };
 
 })();
