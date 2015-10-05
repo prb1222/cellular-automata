@@ -11,9 +11,9 @@
       this.gameType = "Cyclic";
       this.prevConwaySetting = ""
       this.generation = 0;
-      this.threshold = 3;
+      this.threshold = 2;
       this.range = 1;
-      this.numColors = 3;
+      this.numColors = 4;
       this.neighborType = "Moore"
       this.generateGrid();
   };
