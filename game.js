@@ -8,14 +8,14 @@
   var Board = GameOfLife.Board = function (options) {
       this.numX = options.numX;
       this.numY = options.numY;
-      this.gameType = "Conway";
-      this.prevConwaySetting = "gosper-gun"
-      this.generateGrid();
+      this.gameType = "Cyclic";
+      this.prevConwaySetting = ""
       this.generation = 0;
       this.threshold = 3;
       this.range = 1;
       this.numColors = 3;
       this.neighborType = "Moore"
+      this.generateGrid();
   };
 
 
