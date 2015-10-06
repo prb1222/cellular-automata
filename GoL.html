@@ -30,7 +30,7 @@
             <button type="button" class="cyclic-button">Cyclic</button>
             <button type="button" class="instructions-button">Instructions</button>
             <button type="button" class="tour-button">Take Tour</button>
-            <div class="current-mode-status">Current Mode: <div class="current-mode">Conway</div></div>
+            <div class="current-mode-status">Current Mode: <div class="current-mode">Cyclic</div></div>
           </div>
           <div class="input-range-row">
             <div class="generation-counter">
@@ -155,7 +155,7 @@
           This game takes place on a grid of cells which can be in either an on (Yellow) or an off (Grey) state. The cells look at their immediate neighbors to see if they will turn on, off, or stay in their state on the next turn.
         </p>
         <p>
-          If a cell has less than two neighbors, it dies of loneliness. If it has more than three neighbors, it dies of over crowding. Otherwise, living cells stay the same. Additionally, if a dead cell is surrounded by three or more living cells, the dead cell becomings living.
+          If a cell has less than two neighbors, it turns off (dies, in this case due to "loneliness"). If it has more than three neighbors, it dies of over crowding. Otherwise, living cells stay the same. Additionally, if a dead cell is surrounded by three or more living cells, the dead cell becomes alive (turns on).
         </p>
         <p>
           Use the mouse cursor to turn squares on.
